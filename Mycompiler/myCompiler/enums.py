@@ -30,16 +30,16 @@ class DfaState(Enum):
 
 
 class TokenType(Enum):
-    Plus = 0   # +
+    Plus = 0  # +
     Minus = 1  # -
-    Star = 3   # *
+    Star = 3  # *
     Slash = 4  # /
 
-    GE = 5     # >=
-    GT = 6     # >
-    EQ = 7     # ==
-    LE = 8     # <=
-    LT = 9     # <
+    GE = 5  # >=
+    GT = 6  # >
+    EQ = 7  # ==
+    LE = 8  # <=
+    LT = 9  # <
 
     SemiColon = 10  # ;
     LeftParen = 11  # (
@@ -55,3 +55,17 @@ class TokenType(Enum):
 
     IntLiteral = 18  # 整型字面量
     StringLiteral = 19  # 字符串字面量
+
+
+class ASTNodeType(Enum):
+    Programm = 1  # 程序入口，根节点
+    IntDeclaration = 2  # 整型变量声明
+    ExpressionStmt = 3  # 表达式语句，即表达式后面跟个分号
+    AssignmentStmt = 4  # 赋值语句
+
+    Primary = 5  # 基础表达式
+    Multiplicative = 6  # 乘法表达式
+    Additive = 7  # 加法表达式
+
+    Identifier = 8  # 标识符
+    IntLiteral = 9  # 整型字面量

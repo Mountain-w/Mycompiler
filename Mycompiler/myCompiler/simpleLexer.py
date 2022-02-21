@@ -136,8 +136,7 @@ class Lexer:
             self.init_token(ch)
 
 
-l = Lexer()
-l.token_reader('age = 10')
-
-for token in l.tokens:
-    print(token.token_type, token.text, sep=' -- ')
+# l = Lexer()
+# l.token_reader('age = 10')
+# for token in l.tokens:
+#     print(token.token_type, token.text, sep=' -- ')
