@@ -1,5 +1,5 @@
 class ASTNode:
-    def __init__(self, text, node_type):
+    def __init__(self, node_type, text):
         self.node_type = node_type
         self.text = text
         self.parent = None
