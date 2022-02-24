@@ -1,18 +1,7 @@
 from enums import ASTNodeType, TokenType
 from simpleLexer import Lexer
 from collections import deque
-
-
-class ASTNode:
-    def __init__(self, text, node_type):
-        self.node_type = node_type
-        self.text = text
-        self.parent = None
-        self.children = []
-
-    def addChild(self, child):
-        self.children.append(child)
-        child.parent = self
+from ASTNode import ASTNode
 
 
 class SimpleCalculator:
@@ -20,14 +9,18 @@ class SimpleCalculator:
         self.code = code
         lexer = Lexer()
         lexer.token_reader(code)
+        print("***词法分析***")
+        for token in lexer.tokens:
+            print(token.token_type, token.text, sep=' -- ')
         tokens = deque(lexer.tokens)
         rootnode = self.prog(tokens)
-        self.dumpAST(rootnode, '')
+        print("***语法分析***")
+        self.dumpAST(rootnode, ' ')
 
     def dumpAST(self, node, indent):
         print(indent, node.node_type, " ", node.text)
         for child in node.children:
-            self.dumpAST(child, indent + "\t")
+            self.dumpAST(child, indent + " --")
 
     def prog(self, tokens):
         node = ASTNode(ASTNodeType.Programm, "Calculator")
@@ -44,7 +37,7 @@ class SimpleCalculator:
             token = None if not tokens else tokens[0]
             if token and token.token_type == TokenType.Identifier:
                 tokens.popleft()
-                node = ASTNode(ASTNodeType.IntDeclaration, token.text)
+                node = ASTNode(ASTNodeType.Identifier, token.text)
                 token = None if not tokens else tokens[0]
                 if token and token.token_type == TokenType.Assignment:
                     tokens.popleft()
@@ -106,8 +99,11 @@ class SimpleCalculator:
         return node
 
     def primary(self, tokens):
+        node = None
         token = None if not tokens else tokens[0]
         if token:
+            if token.token_type == TokenType.Int:
+                node = self.intDeclare(tokens)
             if token.token_type == TokenType.IntLiteral:
                 tokens.popleft()
                 node = ASTNode(ASTNodeType.IntLiteral, token.text)
@@ -128,4 +124,4 @@ class SimpleCalculator:
         return node
 
 
-s = SimpleCalculator('2+45+5')
+s = SimpleCalculator('int a = 5;')
