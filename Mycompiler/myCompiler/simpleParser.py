@@ -5,16 +5,17 @@ from Token import Token
 
 
 class SimpleParser:
-    def __init__(self, code):
+    def parser(self, code):
         lexer = Lexer()
         lexer.token_reader(code)
         tokens = Token(lexer.tokens)
-        print("***词法分析***")
-        for token in lexer.tokens:
-            print(token.token_type, token.text, sep=' -- ')
+        # print("***词法分析***")
+        # for token in lexer.tokens:
+        #     print(token.token_type, token.text, sep=' -- ')
         rootNode = self.prog(tokens)
-        print("***语法分析***")
-        self.dumpAST(rootNode, " ")
+        # print("***语法分析***")
+        # self.dumpAST(rootNode, " ")
+        return rootNode
 
     def dumpAST(self, node, indent):
         print(indent, node.node_type, " ", node.text)
@@ -43,7 +44,7 @@ class SimpleParser:
             token = tokens.peek()
             if token and token.token_type == TokenType.Identifier:
                 tokens.popleft()
-                node = ASTNode(ASTNodeType.Identifier, token.text)
+                node = ASTNode(ASTNodeType.IntDeclaration, token.text)
                 token = tokens.peek()
                 if token and token.token_type == TokenType.Assignment:
                     tokens.popleft()
@@ -79,7 +80,7 @@ class SimpleParser:
         token = tokens.peek()
         if token and token.token_type == TokenType.Identifier:
             tokens.read()
-            node = ASTNode(ASTNodeType.Identifier, token.text)
+            node = ASTNode(ASTNodeType.AssignmentStmt, token.text)
             token = tokens.peek()
             if token and token.token_type == TokenType.Assignment:
                 tokens.read()
@@ -161,4 +162,5 @@ class SimpleParser:
                     raise Exception("expecting an additive expression inside parenthesis")
         return node
 
-s = SimpleParser('age=20+1+2;')
+# s = SimpleParser()
+# s.parser('age=20+1+2;')
