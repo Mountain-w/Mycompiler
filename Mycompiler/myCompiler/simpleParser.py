@@ -9,6 +9,7 @@ class SimpleParser:
         lexer = Lexer()
         lexer.token_reader(code)
         tokens = Token(lexer.tokens)
+        
         # print("***词法分析***")
         # for token in lexer.tokens:
         #     print(token.token_type, token.text, sep=' -- ')
